@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Asteroids.Bullets;
+using Asteroids.Enemy;
+using Asteroids.ObjectPool;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -7,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject Player;
     void Start()
     {
-        Instantiate(Player);
+        GameObject.Instantiate(Player);
+        EnemyFactory.CreateEnemyShip(new HealthPoints(100));
     }
 }

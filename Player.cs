@@ -4,13 +4,12 @@ namespace Asteroids
 {
     internal sealed class Player : MonoBehaviour
     {
-        [SerializeField] private Rigidbody2D _body;
+        [SerializeField] private Rigidbody _body;
         [SerializeField] private float _speed;
         [SerializeField] private float _acceleration;
         [SerializeField] private int _hp;
-        [SerializeField] private Rigidbody2D _bullet;
+        [SerializeField] private Rigidbody _bullet;
         [SerializeField] private Transform _barrel;
-        [SerializeField] private float _force;
         [SerializeField] private int _damageonhit;
         private Camera _camera;
         private Ship _ship;
@@ -20,8 +19,9 @@ namespace Asteroids
             _camera = Camera.main;
             var moveTransform = new AccelerationMove(_body, _speed, _acceleration);
             var rotation = new RotationShip(transform);
-            var commonFire = new CommonFire(_bullet, _barrel.position, _barrel.rotation, _force);
-            var takeDamage = new SomethingTakeDamage(_hp);
+            var commonFire = new CommonFire(_bullet, _barrel.position, _barrel.rotation);
+            var takeDamage = gameObject.AddComponent<HealthPoints>();
+            takeDamage.SetHP(_hp);
             _ship = new Ship(moveTransform, rotation, commonFire, takeDamage);
         }
 
@@ -44,13 +44,9 @@ namespace Asteroids
 
             if (Input.GetButtonDown("Fire1"))
             {
-                _ship.Fire(_bullet, _barrel.position, _barrel.rotation, _force);
+                _ship.Fire(_bullet, _barrel.position, _barrel.rotation);
             }
         }
 
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            _ship.TakeDamage(_damageonhit);
-        }
     }
 }

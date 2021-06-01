@@ -29,9 +29,9 @@ namespace Asteroids
             _rotationImplementation.Rotation(direction);
         }
 
-        public void Fire(Rigidbody2D bullet, Vector2 startposition, Quaternion startrotation, float force)
+        public void Fire(Rigidbody bullet, Vector3 startposition, Quaternion startrotation)
         {
-            _fireImplementation.Fire(bullet, startposition, startrotation, force);
+            _fireImplementation.Fire(bullet, startposition, startrotation);
         }
 
         public void TakeDamage(int damage)
