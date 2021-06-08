@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Prototype;
+using UnityEngine;
+using HealthPoints = Fire.HealthPoints;
 
 namespace Asteroids
 {
@@ -45,6 +47,11 @@ namespace Asteroids
             if (Input.GetButtonDown("Fire1"))
             {
                 _ship.Fire(_bullet, _barrel.position, _barrel.rotation);
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftAlt))
+            {
+                EnemyShipPrototype.MakeEnemyShipPrototype();
             }
         }
 

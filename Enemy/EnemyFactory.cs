@@ -1,4 +1,5 @@
-﻿using Unity.CodeEditor;
+﻿using Fire;
+using Unity.CodeEditor;
 using UnityEngine;
 
 namespace Asteroids.Enemy

@@ -1,4 +1,5 @@
 ﻿using System;
+using Fire;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
@@ -13,8 +14,8 @@ namespace Asteroids.Enemy
         [SerializeField] private int _hp;
         [SerializeField] private Rigidbody _bullet;
         [SerializeField] private Transform _barrel;
-        private NavMeshAgent _agent=null;
-        private GameObject _player=null;
+        private NavMeshAgent _agent;
+        private GameObject _player;
         private Ship _ship;
         private bool fire=true;
 
@@ -25,7 +26,8 @@ namespace Asteroids.Enemy
             var moveTransform = new AccelerationMove(_body, _speed, _acceleration);
             var rotation = new RotationShip(transform);
             var commonFire = new CommonFire(_bullet, _barrel.position, _barrel.rotation);
-            var takeDamage = new HealthPoints(_hp);
+            var takeDamage = gameObject.AddComponent<HealthPoints>();
+            takeDamage.SetHP(_hp);
             _ship = new Ship(moveTransform, rotation, commonFire, takeDamage);
             
             _agent = GetComponent<NavMeshAgent>();

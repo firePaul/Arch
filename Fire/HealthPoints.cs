@@ -1,29 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-
-internal sealed class HealthPoints : MonoBehaviour, ITakeDamage
+namespace Fire
 {
-    public int _hp { get; private set; }
-
-    public HealthPoints(int hp)
+    
+    internal sealed class HealthPoints : MonoBehaviour, ITakeDamage
     {
-        _hp = hp;
-    }
-
-    public void TakeDamage(int damage)
-    {
-        _hp -= damage;
-        if (_hp - damage <= 0)
+        private int _hp { get; set; }
+        public HealthPoints(int hp)
         {
-            Destroy(gameObject);
+            _hp = hp;
         }
-    }
 
-    public void SetHP(int hp)
-    {
-        _hp = hp;
+        public void TakeDamage(int damage)
+        {
+            _hp -= damage;
+            if (_hp - damage <= 0)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+
+        public void SetHP(int hp)
+        {
+            _hp = hp;
+        }
+    
+        public override string ToString()
+        {
+            return $"Health Points {_hp}";
+        }
     }
 }
 

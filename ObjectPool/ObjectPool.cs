@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Asteroids.Fluent_Builder;
 using UnityEngine;
 
 namespace Asteroids.ObjectPool
@@ -10,6 +11,11 @@ namespace Asteroids.ObjectPool
         public GameObject objectToPool; 
         public int amountToPool;
 
+        public Mesh mesh;
+        public Material material;
+        
+        
+
         void Awake()
         {
             SharedInstance = this;
@@ -18,12 +24,14 @@ namespace Asteroids.ObjectPool
         void Start()
         {
             pooledObjects = new List<GameObject>(); 
-            GameObject tmp;
+            //GameObject tmp;
             for (int i = 0; i < amountToPool; i++)
             {
-                tmp = Instantiate(objectToPool); 
-                tmp.SetActive(false); 
-                pooledObjects.Add(tmp);
+                GameObject bullet =new GameObject().SetName("BulletFromBuilder").AddMeshFilter(mesh).AddMeshRenderer(material).AddSphereCollider(true)
+                    .AddRigidBody(1,false).AddBulletScript();
+                //tmp = Instantiate(objectToPool); 
+                bullet.SetActive(false); 
+                pooledObjects.Add(bullet);
             }
         }
 

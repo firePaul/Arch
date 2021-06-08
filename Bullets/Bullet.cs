@@ -1,15 +1,19 @@
-﻿using UnityEngine;
+﻿using System;
+using Fire;
+using UnityEngine;
 
 namespace Asteroids.Bullets
 {
     public class Bullet:MonoBehaviour
     {
-        [SerializeField] private Rigidbody _pb = null;
+        private Rigidbody _pb;
         [SerializeField] private float _speed = 2000f;
         [SerializeField] private int _damage = 50;
 
+        
         private void OnEnable()
         {
+            _pb = gameObject.GetComponent<Rigidbody>();
             Shoot();
         }
 
