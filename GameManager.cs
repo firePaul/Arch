@@ -1,18 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using Asteroids;
 using Asteroids.Bullets;
 using Asteroids.Enemy;
 using Asteroids.ObjectPool;
 using Fire;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+internal sealed class GameManager : MonoBehaviour
 {
-    [SerializeField] GameObject Player;
-    void Start()
+   public void StartGame(int numberofEnemies, int enemyhp)
     {
-        GameObject.Instantiate(Player);
+        CreatePlayer();
+        for (int i = 0; i < numberofEnemies; i++)
+        {
+            CreateEnemyShip(enemyhp); 
+        }
         
-        EnemyFactory.CreateEnemyShip(new HealthPoints(100));
+    }
+
+    private Player CreatePlayer()
+    {
+        var player = Instantiate(Resources.Load<Player>("Enemy/Player"));
+        return player;
+    }
+
+    private void CreateEnemyShip(int hp)
+    {
+        EnemyFactory.CreateEnemyShip(new HealthPoints(hp));
     }
 }
