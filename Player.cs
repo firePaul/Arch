@@ -1,21 +1,25 @@
-﻿using Prototype;
+﻿using Asteroids.Memento;
+using Fire;
+using Prototype;
+using UniRx;
 using UnityEngine;
 using HealthPoints = Fire.HealthPoints;
 
 namespace Asteroids
 {
-    internal sealed class Player : MonoBehaviour
+    public sealed class Player : MonoBehaviour
     {
         [SerializeField] private Rigidbody _body;
-        [SerializeField] private float _speed;
-        [SerializeField] private float _acceleration;
-        [SerializeField] private int _hp;
+        public float _speed;
+        public float _acceleration;
+        public int _hp;
         [SerializeField] private Rigidbody _bullet;
         [SerializeField] private Transform _barrel;
         [SerializeField] private int _damageonhit;
         private Camera _camera;
         private Ship _ship;
-
+        private Reverse5s Reverse5S;
+        
         private void Awake()
         {
             _camera = Camera.main;
@@ -25,10 +29,15 @@ namespace Asteroids
             var takeDamage = gameObject.AddComponent<HealthPoints>();
             takeDamage.SetHP(_hp);
             _ship = new Ship(moveTransform, rotation, commonFire, takeDamage);
+            MessageBroker.Default.Receive<Message>().Where(x => x.Name == Message.LoL).Subscribe(_ =>LolSomeOneDie()).AddTo(this);
+
+            Reverse5S = GetComponent<Reverse5s>();
         }
 
         private void Update()
         {
+
+
             var direction = Input.mousePosition - _camera.WorldToScreenPoint(transform.position);
             _ship.Rotation(direction);
 
@@ -53,6 +62,24 @@ namespace Asteroids
             {
                 EnemyShipPrototype.MakeEnemyShipPrototype();
             }
+
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                Reverse5S.StartRewind();
+            }
+
+            if (Input.GetKeyUp(KeyCode.Q))
+            {
+                 Reverse5S.StopRewind();
+            }
+
+
+        }
+
+        private void LolSomeOneDie()
+        {
+            Debug.Log("LoL SomeOne Die");
         }
 
     }
